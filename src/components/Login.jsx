@@ -12,12 +12,14 @@ export default class Login extends Component {
             password: this.password
         }
 
-        axios.post('http://localhost:8000/users/login/', data).then(
+        axios.post('users/login/', data).then(
             res => {
                 localStorage.setItem('token', res.data.token)
                 this.setState({
                     loggedIn: true
-                })
+                });
+                // console.log(res.data.user)
+                this.props.setUser(res.data.user)
             } 
         ).catch(
             errors => console.log(errors)

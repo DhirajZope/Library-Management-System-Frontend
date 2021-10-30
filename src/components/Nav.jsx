@@ -1,12 +1,34 @@
+import axios from 'axios';
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 
 export default class Nav extends Component {
+
+    handleLogout = (e) => {
+        e.preventDefault();
+        const config = {
+            headers: {
+                Authorization: localStorage.getItem('token')
+            }
+        }
+        axios.get('users/logout/', config).then(
+            async res => { 
+                await this.props.setUser(null)
+                localStorage.clear();
+                console.log("logged out")
+            }
+        ).catch(
+            async errors => await console.log(errors)
+        )
+    }
+
+
     render() {
         let navs;
         if(this.props.user){
             navs = (<form className="form-inline my-2 my-lg-0">
-                <Link className="btn btn-outline-secondary mx-2" to={'/logout'}>Logout</Link>
+                <Link className="btn btn-light mx-2" to={'/new'} > Add Book </Link>
+                <Link className="btn btn-outline-secondary mx-2" to={'/'} onClick={this.handleLogout}>Logout</Link>
             </form>)
         }
         else {
