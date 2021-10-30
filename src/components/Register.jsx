@@ -1,7 +1,10 @@
 import axios from 'axios'
 import React, { Component } from 'react'
+import { Redirect } from 'react-router'
 
 export default class Register extends Component {
+
+    state = {}
     
     handleSubmit = (event) => {
         const data = {
@@ -13,8 +16,8 @@ export default class Register extends Component {
         }
 
         axios.post('users/register/', data).then(
-            res => {
-                console.log(res)
+            async res => {
+                await this.setState({statusCode: res.status})
             }
         ).catch(
             error => {
@@ -27,6 +30,12 @@ export default class Register extends Component {
     }
     
     render() {
+
+        if(this.state.statusCode === 201){
+            console.log("status"+ this.state.statusCode)
+            return <Redirect to={'/login'} />
+        }
+
         return (
             <form onSubmit={this.handleSubmit} method="POST" >
                 <h3>Sign Up</h3>
