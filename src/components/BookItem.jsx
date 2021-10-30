@@ -9,11 +9,17 @@ export default class BookItem extends Component {
     state = {}
 
     handleDelete = (e) => {
+        let config = {
+            headers: {
+                Authorization: localStorage.getItem('token')
+            }
+        }
+
         e.preventDefault();
         let id = this.props.id
         let choice = window.confirm("Are you sure want to delete "+this.props.title+" ?")
         if(choice) {
-            axios.delete('api/library/'+id).then(
+            axios.delete('api/library/'+id, config).then(
                 async res => await this.setState({deleteCode: res.status}) 
             ).catch(
                 errors => console.log(errors)

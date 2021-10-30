@@ -39,7 +39,13 @@ export default class AddBook extends Component {
         // console.log(data)
         if(this.props.location.state){
             if(this.props.location.state.isUpdate){
-                axios.put('api/library/'+this.props.location.state.id, data).then(
+                let config = {
+                    headers: {
+                        Authorization: localStorage.getItem('token')
+                    }
+                }
+                
+                axios.put('api/library/'+this.props.location.state.id, data, config).then(
                     async res => {
                         // await console.log(typeof(res.status))
                         await this.setState({statusCode: res.status})
