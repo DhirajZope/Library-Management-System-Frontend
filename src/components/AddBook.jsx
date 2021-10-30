@@ -36,14 +36,15 @@ export default class AddBook extends Component {
             isbn: this.state.isbn
         }
 
+        let config = {
+            headers: {
+                Authorization: localStorage.getItem('token')
+            }
+        }
         // console.log(data)
         if(this.props.location.state){
             if(this.props.location.state.isUpdate){
-                let config = {
-                    headers: {
-                        Authorization: localStorage.getItem('token')
-                    }
-                }
+                
                 
                 axios.put('api/library/'+this.props.location.state.id, data, config).then(
                     async res => {
@@ -56,7 +57,7 @@ export default class AddBook extends Component {
             }
         }
         else {
-            axios.post('api/library/', data).then(
+            axios.post('api/library/new/', data, config).then(
                 async res => {
                     // await console.log(typeof(res.status))
                     await this.setState({statusCode: res.status})
